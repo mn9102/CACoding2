@@ -30,6 +30,8 @@ These packages don't have subpackages: `data_access`, `entity`, `view`, and
 
 **Thought question:** Why don't these have use-case-specific subpackages?
 
+My answer: they are interfaces, entities are fixed (business rules)
+
 ## A note on English: 2-word verb phrases vs. 1-word nouns
 
 "Sign up" is a verb phrase and "signup" is a noun. That generalizes: "check in"
@@ -61,6 +63,7 @@ Now compare `LoginInteractor` and `SignupInteractor` side by side. (You can drag
 tabs around if you like.)
 
 **Thought question:** Why doesn't the `LoginInteractor` have a `UserFactory`?
+_My answer_ : no need to make a new user when logging in
 
 #### Remnants of a bug
 
@@ -80,8 +83,12 @@ obvious what was causing it, even when we used the debugger. We isolated the bug
 **Thought question:** Which version do you find easier to understand, the Signup
 one or the Login one?
 
+_my answer_: The Login one
+
 **Thought question:** Maybe the problem is with the debugging tools, maybe the
 IDE doesn't allow easy exploration of expressions?
+
+_my answer_: ?
 
 ### Interactor assets
 
@@ -95,6 +102,7 @@ lab: it has one more method. This is because it implements an interface,
 `LoginUserDataAccessInterface`.
 
 **Thought question:** What is the method that was added?
+_my answer_: get -- gets accounts based on username
 
 ## Adding a use case interaction [for credit]
 

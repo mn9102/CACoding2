@@ -2,6 +2,7 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
+import use_case.clear_users.ClearUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, ClearUserDataAccessInterface{
 
     private final File csvFile;
 
@@ -96,4 +97,39 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.containsKey(identifier);
     }
 
+    @Override
+    public String clear() {
+        String usernames = null;
+        String row;
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            String header = reader.readLine();
+            int i = 0;
+            while ((row = reader.readLine()) != null) {
+                String[] col = row.split(",");
+                String username = String.valueOf(col[headers.get("username")]);
+                if (i == 0){
+                    usernames = username;
+                    i++;
+                }
+
+                else{
+                    usernames = usernames + "\n" + username;
+                    i++;
+                }
+            }
+            try (PrintWriter pw = new PrintWriter(csvFile)) {
+                pw.print(header);
+            }
+            catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+        catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
+
+        return usernames;
+
+    }
 }
